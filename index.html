@@ -231,9 +231,7 @@ body::after {
   padding: 80px 64px;
   overflow: hidden;
   border-top: none !important;
-  background-image: url('https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1600&q=80&auto=format&fit=crop');
-  background-size: cover;
-  background-position: center 40%;
+  background: linear-gradient(135deg, #1d1b54 0%, #312e81 35%, #4f46e5 65%, #7c3aed 100%);
 }
 /* Vibrant indigo/purple gradient overlay */
 .hero::after {
@@ -248,15 +246,113 @@ body::after {
   );
   z-index: 1;
 }
-.hero-keys {
-  position: absolute; bottom: 0; right: -40px;
-  width: 55%; height: 100%;
-  opacity: 0.06; pointer-events: none;
-  display: flex; align-items: flex-end;
-  z-index: 0;
+/* ── ANIMATED HERO PIANO ────────────────────────────────────────────────── */
+.hero-piano-wrap {
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 56%; height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 36px;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 16%, rgba(0,0,0,1) 48%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 16%, rgba(0,0,0,1) 48%);
 }
-.hk { height: 70%; flex: 1; background: var(--text); border-radius: 0 0 4px 4px; margin: 0 2px; }
-.hk:nth-child(even) { height: 45%; background: var(--text-mute); }
+.hero-piano-stage {
+  width: 100%;
+  transform: perspective(1000px) rotateX(18deg) rotateY(-7deg);
+  transform-origin: bottom center;
+  position: relative;
+}
+.hpiano {
+  display: flex;
+  align-items: flex-end;
+  height: 210px;
+  position: relative;
+}
+/* White keys */
+.hpk-w {
+  flex: 1;
+  height: 100%;
+  min-width: 24px;
+  background: linear-gradient(180deg, #f5f2ea 0%, #e8e4d8 78%, #ccc8bc 100%);
+  border-radius: 0 0 7px 7px;
+  border: 1px solid #aaa69a;
+  border-top: none;
+  position: relative;
+  transform-origin: top center;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.08s ease;
+  box-shadow: 1px 5px 16px rgba(0,0,0,0.55);
+}
+.hpk-w::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 30%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.42), transparent);
+  border-radius: 0; pointer-events: none;
+}
+.hpk-w.active {
+  background: linear-gradient(180deg, #fffce8 0%, #fde68a 55%, #f59e0b 100%);
+  box-shadow: 0 0 32px rgba(245,158,11,0.85), 1px 4px 10px rgba(0,0,0,0.3);
+  transform: translateY(4px);
+}
+/* Black keys */
+.hpk-b {
+  flex-shrink: 0;
+  width: 22px;
+  height: 56%;
+  margin: 0 -11px;
+  background: linear-gradient(180deg, #2e3248 0%, #1a1d2e 52%, #0d1018 100%);
+  border-radius: 0 0 5px 5px;
+  border: 1px solid #3c4260;
+  border-top: none;
+  position: relative;
+  z-index: 2;
+  transform-origin: top center;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.08s ease;
+  box-shadow: 1px 8px 20px rgba(0,0,0,0.85);
+}
+.hpk-b::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 2px; right: 2px; height: 26%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), transparent);
+  pointer-events: none;
+}
+.hpk-b.active {
+  background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 55%, #4c1d95 100%);
+  box-shadow: 0 0 24px rgba(139,92,246,0.9), 1px 8px 20px rgba(0,0,0,0.65);
+  transform: translateY(3px);
+}
+/* Floating notes */
+.hp-note {
+  position: absolute;
+  bottom: 102%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 19px;
+  pointer-events: none;
+  animation: hpFloat 2s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+  z-index: 30;
+  line-height: 1;
+}
+.hp-note.gold   { color: rgba(251,191,36,0.95);  text-shadow: 0 0 12px rgba(245,158,11,0.75); }
+.hp-note.violet { color: rgba(167,139,250,0.95); text-shadow: 0 0 12px rgba(124,58,237,0.75); }
+@keyframes hpFloat {
+  0%   { opacity:0; transform:translateX(-50%) translateY(0)     scale(0.6) rotate(-8deg); }
+  18%  { opacity:1; }
+  100% { opacity:0; transform:translateX(-50%) translateY(-105px) scale(1.15) rotate(22deg); }
+}
+/* Floor glow under keyboard */
+.hero-piano-stage::after {
+  content: '';
+  position: absolute;
+  bottom: -18px; left: 10%; right: 10%; height: 36px;
+  background: radial-gradient(ellipse, rgba(124,58,237,0.4) 0%, transparent 72%);
+  filter: blur(10px);
+  pointer-events: none;
+}
 /* Amber glow in upper-left */
 .hero::before {
   content: '';
@@ -509,6 +605,7 @@ footer a:hover { color: var(--lavender); }
   .main { margin-left: 0; }
   .menu-toggle { display: flex; }
   .hero { padding: 80px 24px 56px; min-height: 80vh; }
+  .hero-piano-wrap { display: none; }
   .hero-title { font-size: clamp(32px, 9vw, 56px); }
   .hero-desc { font-size: 15px; }
   .hero-actions { flex-direction: column; gap: 10px; }
@@ -2085,12 +2182,32 @@ footer a:hover { color: var(--lavender); }
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-keys" aria-hidden="true">
-        <div class="hk"></div><div class="hk"></div><div class="hk"></div>
-        <div class="hk"></div><div class="hk"></div><div class="hk"></div>
-        <div class="hk"></div><div class="hk"></div><div class="hk"></div>
-        <div class="hk"></div><div class="hk"></div><div class="hk"></div>
-        <div class="hk"></div><div class="hk"></div>
+      <!-- Animated Piano Keyboard -->
+      <div class="hero-piano-wrap" aria-hidden="true">
+        <div class="hero-piano-stage">
+          <div class="hpiano" id="heroPiano">
+            <!-- Octave 1: C C# D D# E  F F# G G# A A# B -->
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div>
+            <!-- Octave 2 -->
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div>
+            <!-- Octave 3 partial (C D E) -->
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div><div class="hpk-b"></div>
+            <div class="hpk-w"></div>
+          </div>
+        </div>
       </div>
       <div class="hero-content">
         <div class="hero-eyebrow">Piano408 Studios</div>
@@ -2314,6 +2431,46 @@ footer a:hover { color: var(--lavender); }
 </div>
 
 <script>
+// ── HERO PIANO ANIMATION ─────────────────────────────────────────────────
+(function() {
+  const piano = document.getElementById('heroPiano');
+  if (!piano) return;
+  const NOTES = ['♩','♪','♫','♬'];
+  const allKeys = Array.from(piano.querySelectorAll('.hpk-w, .hpk-b'));
+
+  function fire(key) {
+    if (!key || key.classList.contains('active')) return;
+    const isBlack = key.classList.contains('hpk-b');
+    key.classList.add('active');
+
+    // Spawn a floating note above the key
+    const note = document.createElement('span');
+    note.className = 'hp-note ' + (isBlack ? 'violet' : 'gold');
+    note.textContent = NOTES[Math.floor(Math.random() * NOTES.length)];
+    key.appendChild(note);
+    note.addEventListener('animationend', () => note.remove(), { once: true });
+
+    // Release the key
+    setTimeout(() => key.classList.remove('active'), 140 + Math.random() * 160);
+  }
+
+  function loop() {
+    const i = Math.floor(Math.random() * allKeys.length);
+    fire(allKeys[i]);
+
+    // Occasionally press a nearby key shortly after (chord-like feel)
+    if (Math.random() < 0.38) {
+      const offset = 1 + Math.floor(Math.random() * 4);
+      const j = Math.min(i + offset, allKeys.length - 1);
+      setTimeout(() => fire(allKeys[j]), 65 + Math.random() * 90);
+    }
+
+    setTimeout(loop, 230 + Math.random() * 520);
+  }
+
+  loop();
+})();
+
 // ── EAR TRAINING (inline, Web Audio API) ─────────────────────────────────
 (function() {
   const INTERVALS = [
