@@ -40,23 +40,13 @@
   --sidebar-w: 268px;
   --radius:    12px;
 }
-/* ── KEEP SIDEBAR DARK ──────────────────────────────────────────────────── */
-.sidebar { background: #0e1017 !important; border-right-color: #252838 !important; }
-.sidebar .brand-eyebrow { color: #4a5068 !important; }
-.sidebar .brand-name { color: #e8eaf0 !important; }
-.sidebar .brand-tagline { color: #7a8099 !important; }
-.sidebar .nav-section-label { color: #4a5068 !important; }
-.sidebar .nav-item { color: #c8cad8 !important; }
-.sidebar .nav-item:hover { color: #f59e0b !important; background: rgba(245,158,11,0.07) !important; }
-.sidebar .nav-item.active { color: #f59e0b !important; background: rgba(245,158,11,0.1) !important; }
-.sidebar .nav-sub-item { color: #4a5068 !important; }
-.sidebar .nav-sub-dot { background: #4a5068 !important; }
-.sidebar .sidebar-cta { background: rgba(245,158,11,0.05) !important; border-color: rgba(245,158,11,0.2) !important; }
-.sidebar .sidebar-footer { border-top-color: #252838 !important; }
-.sidebar .sidebar-footer p { color: #4a5068 !important; }
-.sidebar .social-icon { background: #1e2230 !important; border-color: #252838 !important; color: #7a8099 !important; }
-.sidebar::-webkit-scrollbar-thumb { background: #252838 !important; }
-.menu-toggle { background: #0e1017 !important; border-color: #252838 !important; color: #e8eaf0 !important; box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important; }
+/* ── SIDEBAR (light theme) ──────────────────────────────────────────────── */
+.sidebar { background: #ffffff; border-right-color: var(--border); }
+.sidebar .nav-item:hover { color: var(--lavender); background: rgba(124,58,237,0.06); border-left-color: var(--lavender); }
+.sidebar .nav-item.active { color: var(--lavender); background: rgba(124,58,237,0.08); border-left-color: var(--lavender); }
+.sidebar .sidebar-cta { background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(124,58,237,0.07)); border-color: rgba(124,58,237,0.18); }
+.sidebar .social-icon { background: var(--surface2); border-color: var(--border); color: var(--text-dim); }
+.menu-toggle { background: #ffffff; border-color: var(--border2); color: var(--text); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
 
 /* ── KEEP MODALS DARK ───────────────────────────────────────────────────── */
 .tool-modal-inner { background: #161922 !important; border-color: #2a3045 !important; }
