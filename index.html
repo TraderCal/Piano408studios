@@ -551,15 +551,47 @@ section + section { border-top: 1px solid var(--border); }
   position: relative; overflow: hidden;
 }
 .tool-preview::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(245,158,11,0.18), transparent 70%); }
-.mini-piano { background: #0d0f14; border: 1px solid #2a2d38; border-radius: 8px; padding: 12px 10px 0; width: 100%; max-width: 240px; }
-.mini-keys { display: flex; gap: 2px; align-items: flex-end; position: relative; }
-.mw2 { flex: 1; height: 54px; background: #f0ede6; border-radius: 0 0 3px 3px; min-width: 0; }
-.mw2.lit { background: var(--gold); }
-.mb2 { width: 55%; height: 33px; background: #1a1c24; border-radius: 0 0 3px 3px; margin: 0 -27.5%; position: relative; z-index: 2; flex-shrink: 0; }
-.mb2.lit { background: var(--gold); }
-.mini-piano-cap { padding: 8px; text-align: center; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--text-mute); letter-spacing: 0.12em; }
+/* Chord Academy preview piano (smaller variant) */
+.mini-hp {
+  width: 100%; max-width: 290px;
+  background: rgba(0,0,0,0.28);
+  border-radius: 10px; padding: 12px 12px 0;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.mini-hp .hpiano { height: 108px; }
+.mini-hp .hpk-w { min-width: 14px; }
+.mini-hp .hpk-b { width: 16px; margin: 0 -8px; }
+/* Chord-lit states (used by both white and black keys) */
+.hpk-w.chord-lit {
+  background: linear-gradient(180deg, #fffce8 0%, #fde68a 55%, #f59e0b 100%);
+  box-shadow: 0 0 28px rgba(245,158,11,0.82), 1px 4px 10px rgba(0,0,0,0.3);
+  transform: translateY(3px);
+}
+.hpk-b.chord-lit {
+  background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 55%, #4c1d95 100%);
+  box-shadow: 0 0 22px rgba(139,92,246,0.88), 1px 8px 20px rgba(0,0,0,0.6);
+  transform: translateY(2px);
+}
+.chord-preview-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px; font-style: italic;
+  color: #fbbf24;
+  text-shadow: 0 0 20px rgba(245,158,11,0.55);
+  text-align: center;
+  transition: opacity 0.25s;
+  min-height: 38px;
+}
 .chord-pills { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-.chord-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); }
+.chord-pill {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px; padding: 4px 12px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(251,191,36,0.85);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.chord-pill.cp-active {
+  background: rgba(245,158,11,0.22); border-color: rgba(245,158,11,0.55);
+  color: #fbbf24;
+}
 
 /* ── PROOF ──────────────────────────────────────────────────────────────── */
 .proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -2357,25 +2389,28 @@ footer a:hover { color: var(--lavender); }
           <a href="#" onclick="openChordAcademy(event)" class="btn-primary" style="margin-top:8px; width:fit-content;">Open Chord Academy →</a>
         </div>
         <div class="tool-preview">
-          <div class="mini-piano">
-            <div class="mini-keys">
-              <div class="mw2 lit"></div><div class="mb2"></div>
-              <div class="mw2"></div><div class="mb2 lit"></div>
-              <div class="mw2 lit"></div><div class="mb2"></div>
-              <div class="mw2"></div><div class="mb2 lit"></div>
-              <div class="mw2 lit"></div><div class="mb2"></div>
-              <div class="mw2"></div>
+          <div class="chord-preview-name" id="chordPreviewName">Cmaj9</div>
+          <div class="mini-hp">
+            <div class="hpiano" id="chordPiano">
+              <!-- One octave + extra C: C C# D D# E F F# G G# A A# B C -->
+              <div class="hpk-w"></div><div class="hpk-b"></div>
+              <div class="hpk-w"></div><div class="hpk-b"></div>
+              <div class="hpk-w"></div>
+              <div class="hpk-w"></div><div class="hpk-b"></div>
+              <div class="hpk-w"></div><div class="hpk-b"></div>
+              <div class="hpk-w"></div><div class="hpk-b"></div>
+              <div class="hpk-w"></div>
+              <div class="hpk-w"></div>
             </div>
-            <div class="mini-piano-cap">Chord visualizer</div>
           </div>
-          <div class="chord-pills">
-            <div class="chord-pill">Cmaj9</div>
+          <div class="chord-pills" id="chordPills">
+            <div class="chord-pill cp-active">Cmaj9</div>
             <div class="chord-pill">Dm11</div>
             <div class="chord-pill">G13</div>
             <div class="chord-pill">Am7♭5</div>
             <div class="chord-pill">F♯7alt</div>
           </div>
-          <p style="font-size:12px; color:var(--text-mute); text-align:center; font-family:'DM Mono',monospace; letter-spacing:0.08em;">17 chords · 12 keys · 100% free</p>
+          <p style="font-size:12px; color:rgba(220,215,255,0.55); text-align:center; font-family:'DM Mono',monospace; letter-spacing:0.08em;">17 chords · 12 keys · 100% free</p>
         </div>
       </div>
     </section>
@@ -2469,6 +2504,59 @@ footer a:hover { color: var(--lavender); }
   }
 
   loop();
+})();
+
+// ── CHORD ACADEMY PREVIEW ANIMATION ─────────────────────────────────────
+(function() {
+  const piano   = document.getElementById('chordPiano');
+  const nameEl  = document.getElementById('chordPreviewName');
+  const pillEls = document.querySelectorAll('#chordPills .chord-pill');
+  if (!piano) return;
+
+  // Key indices in the DOM order:
+  // 0=C(w) 1=C#(b) 2=D(w) 3=D#(b) 4=E(w) 5=F(w) 6=F#(b) 7=G(w) 8=G#(b) 9=A(w) 10=A#(b) 11=B(w) 12=C2(w)
+  const CHORDS = [
+    { name: 'Cmaj9',  keys: [0, 2, 4, 7, 11, 12] },
+    { name: 'Dm11',   keys: [0, 2, 3, 5, 7, 9]   },
+    { name: 'G13',    keys: [2, 4, 5, 7, 9, 11]   },
+    { name: 'Am7♭5', keys: [0, 3, 7, 9]           },
+    { name: 'F♯7alt', keys: [4, 6, 8, 10, 12]     },
+  ];
+
+  const allKeys = Array.from(piano.querySelectorAll('.hpk-w, .hpk-b'));
+  let idx = 0;
+
+  function showChord() {
+    // Clear previous
+    allKeys.forEach(k => k.classList.remove('chord-lit'));
+    pillEls.forEach(p => p.classList.remove('cp-active'));
+
+    const chord = CHORDS[idx];
+
+    // Fade out name then swap
+    if (nameEl) {
+      nameEl.style.opacity = '0';
+      setTimeout(() => {
+        nameEl.textContent = chord.name;
+        nameEl.style.opacity = '1';
+      }, 200);
+    }
+
+    // Light up keys with a slight stagger for a played feel
+    chord.keys.forEach((ki, i) => {
+      setTimeout(() => {
+        if (allKeys[ki]) allKeys[ki].classList.add('chord-lit');
+      }, i * 55);
+    });
+
+    // Highlight the matching pill
+    if (pillEls[idx]) pillEls[idx].classList.add('cp-active');
+
+    idx = (idx + 1) % CHORDS.length;
+    setTimeout(showChord, 2200);
+  }
+
+  showChord();
 })();
 
 // ── EAR TRAINING (inline, Web Audio API) ─────────────────────────────────
