@@ -610,6 +610,68 @@ section + section { border-top: 1px solid var(--border); }
 .final-cta .btn-secondary { background: rgba(255,255,255,0.15) !important; color: #ffffff !important; border-color: rgba(255,255,255,0.4) !important; }
 .final-cta .btn-secondary:hover { background: rgba(255,255,255,0.25) !important; border-color: rgba(255,255,255,0.8) !important; }
 
+/* ── FREE DOWNLOAD ──────────────────────────────────────────────────────── */
+.free-download-section { background: #ffffff; }
+.free-dl-card {
+  display: flex; align-items: center; gap: 28px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0f9ff 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: 18px; padding: 36px 40px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 32px rgba(16,185,129,0.1);
+}
+.free-dl-card::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.free-dl-icon { font-size: 52px; flex-shrink: 0; }
+.free-dl-body { flex: 1; min-width: 0; }
+.free-dl-tag {
+  display: inline-block;
+  background: #d1fae5; color: #065f46;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px; margin-bottom: 10px;
+  border: 1px solid #6ee7b7;
+}
+.free-dl-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px; color: var(--text); margin-bottom: 10px; line-height: 1.2;
+}
+.free-dl-desc {
+  font-size: 14px; color: var(--text-dim); line-height: 1.7; margin-bottom: 14px; font-weight: 400;
+}
+.free-dl-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.free-dl-tags span {
+  font-size: 12px; color: #047857;
+  background: #ecfdf5; border: 1px solid #a7f3d0;
+  border-radius: 20px; padding: 3px 10px;
+  font-family: 'DM Mono', monospace;
+}
+.free-dl-action { flex-shrink: 0; text-align: center; }
+.free-dl-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #ffffff; font-family: 'Outfit', sans-serif;
+  font-size: 15px; font-weight: 700;
+  padding: 14px 28px; border-radius: 10px;
+  text-decoration: none; transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(5,150,105,0.35);
+  white-space: nowrap;
+}
+.free-dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(5,150,105,0.45); filter: brightness(1.06); }
+.free-dl-note { font-size: 11px; color: #6b7280; margin-top: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+@media (max-width: 860px) {
+  .free-dl-card { flex-direction: column; text-align: center; padding: 28px 24px; }
+  .free-dl-tags { justify-content: center; }
+  .free-dl-btn { width: 100%; justify-content: center; }
+}
+
 /* ── FOOTER ─────────────────────────────────────────────────────────────── */
 footer { padding: 32px 64px; border-top: 1px solid var(--border); background: #ffffff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 footer p { font-size: 12px; color: var(--text-mute); font-weight: 400; }
@@ -1951,6 +2013,20 @@ footer a:hover { color: var(--lavender); }
           </div>
         </div>
 
+        <!-- Product: Improv Cheat Sheet (TpT) -->
+        <div class="sh-card">
+          <div class="sh-card-thumb">🎵</div>
+          <div class="sh-card-body">
+            <span class="sh-card-tag" style="background:rgba(16,185,129,0.15);color:#065f46;border-color:rgba(16,185,129,0.3);">Free Resource</span>
+            <div class="sh-card-title">Improv Cheat Sheet</div>
+            <p class="sh-card-desc">The one-page jazz reference your students will keep on their piano forever. Every essential scale-chord relationship in one print-ready sheet — major, minor, dominant, altered, diminished, modes at a glance, pentatonic quick reference, and improv tips.</p>
+          </div>
+          <div class="sh-card-footer">
+            <div class="sh-price" style="color:#059669;">FREE</div>
+            <a class="sh-buy" href="https://www.teacherspayteachers.com/Product/Improv-Cheat-Sheet-16719518" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#059669,#10b981);">Get Free →</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -2401,6 +2477,28 @@ footer a:hover { color: var(--lavender); }
             <div class="chord-pill">F♯7alt</div>
           </div>
           <p style="font-size:12px; color:rgba(220,215,255,0.55); text-align:center; font-family:'DM Mono',monospace; letter-spacing:0.08em;">17 chords · 12 keys · 100% free</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FREE DOWNLOAD -->
+    <section class="free-download-section">
+      <div class="free-dl-card">
+        <div class="free-dl-icon">🎁</div>
+        <div class="free-dl-body">
+          <div class="free-dl-tag">Free Download</div>
+          <div class="free-dl-title">Solo Piano Scale &amp; Chord Reference</div>
+          <p class="free-dl-desc">The go-to cheat sheet for improvisation and comping. Covers the best scales for every chord type — major, minor, dominant, altered, diminished — plus a modes-at-a-glance table, pentatonic quick reference, and improv tips. 3 pages, print-ready.</p>
+          <div class="free-dl-tags">
+            <span>Scales for every chord type</span>
+            <span>Modes at a glance</span>
+            <span>Pentatonic quick ref</span>
+            <span>Improv tips</span>
+          </div>
+        </div>
+        <div class="free-dl-action">
+          <a href="piano-scale-cheat-sheet.pdf" download="Piano408-Scale-Chord-Reference.pdf" class="free-dl-btn">⬇ Download Free PDF</a>
+          <p class="free-dl-note">No email required · Print-ready · 3 pages</p>
         </div>
       </div>
     </section>
