@@ -3944,47 +3944,29 @@ document.addEventListener('keydown', e => {
 
 // ── FREE LESSONS ───────────────────────────────────────────────────────────
 (function() {
-  const LESSONS = {
-    beginner: {
-      label: 'Beginner', color: 'var(--teal)', badge: 'beginner',
-      items: [
-        { num:'01', title:'Piano Basics: Keys, Posture & Fingers',       desc:'Learn the layout of the 88 keys, how to sit correctly, and the numbering system for your fingers before touching a note.',       duration:'12 min' },
-        { num:'02', title:'Your First Chord: C Major',                    desc:'Play your first chord in under 5 minutes. We\'ll break down C–E–G and why this triad is the perfect starting point.',          duration:'10 min' },
-        { num:'03', title:'Reading Notes: Treble Clef Fundamentals',      desc:'Decode the treble clef staff line by line. By the end you\'ll recognize every note from C4 to F5 without hesitation.',          duration:'15 min' },
-        { num:'04', title:'Simple Melodies: Your First Song',             desc:'Put notes into action with a simple melody using only the white keys. No theory overwhelm — just music from minute one.',       duration:'14 min' },
-      ]
-    },
-    intermediate: {
-      label: 'Intermediate', color: 'var(--gold)', badge: 'intermediate',
-      items: [
-        { num:'05', title:'Major Scale Shapes Across All 12 Keys',        desc:'Learn the pattern that unlocks every major scale. One formula, all 12 keys — including the sharp and flat ones.',             duration:'18 min' },
-        { num:'06', title:'Left Hand Patterns: Ballad & Gospel Bass',     desc:'Add soul to your playing with two essential left hand grooves used in gospel, R&B, and contemporary worship.',                  duration:'16 min' },
-        { num:'07', title:'The I–IV–V–I Progression',                     desc:'Master the most important chord progression in Western music. Once you hear it, you\'ll recognize it everywhere.',             duration:'20 min' },
-        { num:'08', title:'Playing With Both Hands Together',             desc:'Strategies to sync your hands without frustration. Slow practice, chunking, and the "anchor" technique explained.',            duration:'22 min' },
-      ]
-    },
-    advanced: {
-      label: 'Advanced', color: 'var(--lavender)', badge: 'advanced',
-      items: [
-        { num:'09', title:'Extended Chords: 9ths, 11ths & 13ths',         desc:'Go beyond triads and 7ths. Learn how to voice extended chords cleanly and when to use them for maximum color.',               duration:'25 min' },
-        { num:'10', title:'Chord Substitutions & Reharmonization',        desc:'Replace predictable chords with richer alternatives. The secret behind that "jazz pianist" sound.',                           duration:'28 min' },
-        { num:'11', title:'Improvisation Over a ii–V–I',                  desc:'Build a vocabulary for improvising over the most common jazz progression. Scales, approach notes, and licks included.',         duration:'30 min' },
-        { num:'12', title:'Gospel Left Hand: The Full Stride Pattern',    desc:'Elevate your left hand from bass notes to full stride. Essential for gospel, neo-soul, and worship keyboard players.',          duration:'26 min' },
-      ]
-    },
-  };
+  const LESSONS = [
+    { file:'lesson-01.mp4',      emoji:'🎹', tag:'Beginner',     tagColor:'var(--teal)',     title:'Piano Basics: Keys, Posture & Fingers',  desc:'Learn the layout of the keys, how to sit correctly, and finger numbering before touching a note.' },
+    { file:'Scales%20.MOV',                        emoji:'🎼', tag:'Beginner',     tagColor:'var(--teal)',     title:'Scales',                                  desc:'Master the foundational scale patterns that unlock melody, improv, and chord building across all 12 keys.' },
+    { file:'How%20to%20play%20a%20Maj9.MOV',       emoji:'🎵', tag:'Intermediate', tagColor:'var(--gold)',     title:'How to Play a Maj9 Chord',                desc:'Add richness and color to your comping with the major 9th voicing — one of the most beautiful chords in jazz and gospel.' },
+    { file:'How%20to%20play%20a%20Minor9.MOV',     emoji:'🎶', tag:'Intermediate', tagColor:'var(--gold)',     title:'How to Play a Minor9 Chord',              desc:'The minor 9 gives your playing depth and emotion. Learn clean fingerings and how to use it over common progressions.' },
+    { file:'How%20to%20play%20a%20Drop%202Vocing.MOV', emoji:'🎷', tag:'Advanced', tagColor:'var(--lavender)', title:'How to Play a Drop 2 Voicing',           desc:'The go-to jazz voicing on piano and guitar. Learn all four inversions and how to use them for smooth voice leading.' },
+    { file:'How%20to%20Play%20a%20Maj13%2311.MOV', emoji:'✨', tag:'Advanced',     tagColor:'var(--lavender)', title:'How to Play a Maj13#11 Chord',            desc:'The Lydian sound — lush, floating, and modern. Break down this stunning chord and learn when it shines brightest.' },
+  ];
 
-  function buildCard(item, color, badge) {
-    return `<div class="fl-card" style="--fl-accent:${color}">
-      <div class="fl-card-thumb"></div>
-      <div class="fl-card-body">
-        <div class="fl-card-num">Lesson ${item.num}</div>
-        <div class="fl-card-title">${item.title}</div>
-        <div class="fl-card-desc">${item.desc}</div>
-      </div>
-      <div class="fl-card-footer">
-        <span class="fl-duration">⏱ ${item.duration}</span>
-        <span class="fl-badge fl-badge-${badge}">${badge}</span>
+  let activeIdx = 0;
+
+  function renderPill(lesson, idx) {
+    const isActive = idx === activeIdx;
+    return `<div onclick="flSelect(${idx})" style="
+      display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;cursor:pointer;
+      background:${isActive ? 'rgba(255,255,255,0.07)' : 'transparent'};
+      border:1px solid ${isActive ? 'rgba(255,255,255,0.14)' : 'transparent'};
+      transition:background 0.15s,border-color 0.15s;
+    ">
+      <div style="font-size:22px;flex-shrink:0;line-height:1;">${lesson.emoji}</div>
+      <div style="min-width:0;">
+        <div style="font-size:12px;font-weight:600;color:${isActive ? '#fff' : 'rgba(200,195,220,0.85)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;">${lesson.title}</div>
+        <div style="font-size:10px;font-weight:500;color:${lesson.tagColor};margin-top:2px;">${lesson.tag}</div>
       </div>
     </div>`;
   }
@@ -3992,54 +3974,62 @@ document.addEventListener('keydown', e => {
   function render() {
     const mount = document.getElementById('fl-mount');
     if (!mount) return;
+    const lesson = LESSONS[activeIdx];
 
     mount.innerHTML = `
-      <div style="display:flex;flex-direction:column;gap:0;font-family:'Outfit',sans-serif;max-width:800px;margin:0 auto;padding:32px 24px 40px;">
+      <div style="display:flex;flex-direction:column;height:100%;font-family:'Outfit',sans-serif;">
 
-        <!-- Section header -->
-        <div style="margin-bottom:24px;">
-          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Free Lessons</div>
-          <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text);margin-bottom:4px;">Lesson 1 — Getting Started</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-dim);">Beginner fundamentals — posture, hand position, and your first chords</div>
-        </div>
+        <!-- Two-column layout -->
+        <div style="display:flex;flex:1;min-height:0;gap:0;">
 
-        <!-- Video player -->
-        <div style="position:relative;width:100%;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,0.6);margin-bottom:28px;">
-          <video
-            controls
-            preload="metadata"
-            playsinline
-            style="width:100%;display:block;max-height:480px;object-fit:contain;"
-          >
-            <source src="lesson-01.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-        </div>
-
-        <!-- Divider + CTA -->
-        <div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;">
-          <div style="flex:1;height:1px;background:var(--border);opacity:0.4;"></div>
-          <div style="font-size:12px;font-weight:300;color:var(--text-dim);white-space:nowrap;">More lessons coming soon</div>
-          <div style="flex:1;height:1px;background:var(--border);opacity:0.4;"></div>
-        </div>
-
-        <!-- Placeholder cards for upcoming lessons -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:32px;">
-          ${['Lesson 2 — Scales & Patterns','Lesson 3 — Chord Theory','Lesson 4 — Gospel Voicings','Lesson 5 — Jazz Technique'].map(title => `
-            <div style="border:1px solid var(--border);border-radius:10px;padding:16px 14px;opacity:0.45;cursor:default;">
-              <div style="font-size:20px;margin-bottom:8px;">🔒</div>
-              <div style="font-size:12px;font-weight:500;color:var(--text-dim);line-height:1.4;">${title}</div>
+          <!-- Left: playlist -->
+          <div style="
+            width:240px;flex-shrink:0;overflow-y:auto;
+            border-right:1px solid rgba(255,255,255,0.07);
+            padding:20px 10px;display:flex;flex-direction:column;gap:4px;
+          ">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);padding:0 6px;margin-bottom:10px;">
+              ${LESSONS.length} Free Lessons
             </div>
-          `).join('')}
-        </div>
+            ${LESSONS.map((l,i) => renderPill(l,i)).join('')}
+          </div>
 
-        <!-- Bottom CTA -->
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-          <a href="#" class="btn-primary" onclick="closeFreeLessons(); openBooking(event)">Book a Private Lesson →</a>
-          <a href="#" class="btn-secondary" onclick="closeFreeLessons(); openPricing(event)">View Pricing</a>
+          <!-- Right: player + info -->
+          <div style="flex:1;min-width:0;overflow-y:auto;padding:24px;">
+
+            <!-- Tag -->
+            <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:${lesson.tagColor};margin-bottom:8px;">${lesson.tag}</div>
+
+            <!-- Title -->
+            <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:14px;line-height:1.3;">${lesson.title}</div>
+
+            <!-- Video -->
+            <div style="border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 32px rgba(0,0,0,0.7);margin-bottom:16px;">
+              <video id="flVideoPlayer" controls preload="metadata" playsinline
+                style="width:100%;display:block;max-height:420px;object-fit:contain;">
+                <source src="${lesson.file}" type="video/mp4">
+                Your browser does not support HTML5 video.
+              </video>
+            </div>
+
+            <!-- Description -->
+            <p style="font-size:13px;color:rgba(200,195,220,0.75);line-height:1.65;margin-bottom:24px;">${lesson.desc}</p>
+
+            <!-- CTAs -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="#" class="btn-primary" onclick="closeFreeLessons(); openBooking(event)">Book a Private Lesson →</a>
+              <a href="#" class="btn-secondary" onclick="closeFreeLessons(); openPricing(event)">View Pricing</a>
+            </div>
+
+          </div>
         </div>
       </div>`;
   }
+
+  window.flSelect = function(idx) {
+    activeIdx = idx;
+    render();
+  };
 
   window.openFreeLessons = function(e) {
     if (e) e.preventDefault();
